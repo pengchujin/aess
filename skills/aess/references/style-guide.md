@@ -20,7 +20,9 @@ Distilled from the 2019–2026 Apple event summary slides, studied through the "
 | `dark` | black page, charcoal cards | pro/performance, chips, sustainability, anything dramatic |
 | `glass` | frosted cards over a colorful `backdrop` (bg name or image path) | immersive, spatial, travel, lifestyle, music |
 
-Set `accent` to a color drawn from the subject (brand color, product finish, the mood of the topic). It colors `**highlights**`, icon discs, bars, charts, and `"bg":"auto"` heroes, so one value makes the whole slide feel made for this subject.
+**Real brands use their official palette only**, set through the `brand` block (see `official-assets.md`). `brand.colors[0]` becomes `accent`, and `"bg":"brand"`, `"grad":"brand"`, and the color names `brand`, `brand2`, `brand3` draw from the same list. The theme table below suggests accents for fictional subjects; for a real brand, its palette overrides them.
+
+For fictional subjects, set `accent` to a color drawn from the subject (product finish, the mood of the topic). It colors `**highlights**`, icon discs, bars, charts, and `"bg":"auto"` heroes, so one value makes the whole slide feel made for this subject.
 
 ## Adapt the small cards to the subject
 
@@ -49,13 +51,13 @@ Every card takes optional `size` (`xs s m l xl xxl`), `center: true` to pull it 
 
 | kind | fields | when |
 |---|---|---|
-| `hero` | `text, top, sub, bg, image, pattern:"rings", textColor, textGrad` | Exactly one big full-bleed gradient or photo tile with white title. Always `size:"l"` or larger. |
+| `hero` | `text, top, sub, bg, image, logo (true = brand.logo, or a path), logoPlate, logoSize, pattern:"rings", textColor, textGrad` | Exactly one big full-bleed gradient or photo tile with white title. Always `size:"l"` or larger. |
 | `stat` | `top, value, bottom, color, grad` | Any number. The workhorse: use for ≈1/3 of cards. |
 | `statement` | `text, top, bottom, style(plain/gray/gradient/metal/outline/script/marker), grad, color, decor(arrows/ring), fontSize` | Short claim ("Thinnest ever", "无风扇设计"). `fontSize` caps it. |
 | `feature` | `visual, caption, captionTop` | Icon, device, chip or photo with caption. The other workhorse. |
 | `media` | `image` or `bg`, `text, caption, textColor, fit` | Full-bleed photo or gradient, with an optional big word on it ("HDR", "GPS") and a caption. |
 | `side` | `visual, label` | Small icon + label in a row ("Conversation Awareness"). |
-| `icons` | `items:[{icon or visual, label}]` | Row of 2–4 ports or minor specs. |
+| `icons` | `items:[{icon or visual, label}], caption` | Row of 2–4 ports or minor specs. |
 | `pill` | `before, value, after, color` | "Up to [21 hours] battery life". |
 | `frame` | `text, color` | Text in orange focus brackets — camera/precision features. |
 | `wave` | `text, grad` | Gradient word between waveforms — audio/voice features. |
@@ -85,11 +87,12 @@ Every card takes optional `size` (`xs s m l xl xxl`), `center: true` to pull it 
 - `{"icon":"wifi","style":"plain|circle|app","color":"blue","bg":"violet"}` — 1,700 Lucide names in English kebab-case; find them with `scripts/find-icon.mjs <keyword>`. `circle` = white on a colored disc; `app` = app-icon squircle; `plain` = bare glyph.
 - `{"device":"phone|tablet|laptop|watch","bg":"sunset","image":"shot.png","time":"9:41","screenText":"…"}`
 - `{"chip":"X3","sub":"ULTRA","grad":"ice"}` — dark processor square. Use only for actual chips or a similar "core engine".
-- `{"image":"photo.png","fit":"cover"}` — `cover` fills the card edge to edge; the default is contained. PNG, JPG, WebP and SVG all work, so a downloaded logo can go straight in.
+- `{"logo":true}` — the official logo from `brand.logo`.
+- `{"image":"photo.png","fit":"cover"}` — `cover` fills the card edge to edge; the default is contained. PNG, JPG, WebP and SVG all work. Add `"scale": 1.4` when a transparent product shot has wide empty margins.
 - `{"emoji":"🎧"}` — large objects when no icon or photo fits.
 - `{"svg":"<svg…>"}` — draw a custom illustration when the subject deserves it.
 
-**Tokens.** `grad`: `rainbow blue teal purple pink sunset gold green silver ice titanium intelligence ember lime`, or any CSS gradient. `color`: `accent blue green orange red purple pink teal yellow gray black white`, or any CSS color. `bg`: `sunset sunrise violet ocean mint ember aurora graphite sky`, `auto` (built from `accent`), `{"mesh":["#a","#b","#c"]}`, or any CSS gradient.
+**Tokens.** `grad`: `brand rainbow blue teal purple pink sunset gold green silver ice titanium intelligence ember lime`, or any CSS gradient. `color`: `accent brand brand2 brand3 blue green orange red purple pink teal yellow gray black white`, or any CSS color. `bg`: `brand` (official colors), `sunset sunrise violet ocean mint ember aurora graphite sky`, `auto` (built from `accent`), `{"mesh":["#a","#b","#c"]}`, or any CSS gradient.
 
 ## Casting the slide
 

@@ -26,6 +26,14 @@ const PORTRAIT = H > W;
 const scale = +flag('--scale', spec.scale || 2);
 const out = path.resolve(flag('-o', spec.output || specPath.replace(/\.json$/, '') + '.png'));
 const seed = +flag('--seed', spec.seed ?? 1);
+const brand = spec.brand || null;
+if (brand) {
+  const problems = [];
+  if (!brand.logo) problems.push('brand.logo is missing');
+  else if (!/^(https?:|data:)/.test(brand.logo) && !fs.existsSync(path.resolve(specDir, brand.logo))) problems.push(`brand.logo not found: ${brand.logo}`);
+  if (!Array.isArray(brand.colors) || !brand.colors.length || !brand.colors.every(c => /^#[0-9a-f]{6}$/i.test(c))) problems.push('brand.colors must be a list of #rrggbb values taken from official artwork');
+  if (problems.length) { console.error('brand check failed: ' + problems.join('; ')); process.exit(5); }
+}
 const cards = (spec.cards || []).filter(c => !(PORTRAIT && c.secondary)); if (!cards.length) { console.error('spec.cards is empty'); process.exit(2); }
 
 // ───────── design tokens (measured from the reference slides, normalized to 1920×1080) ─────────
@@ -47,7 +55,7 @@ const GRADS = {
   titanium: 'linear-gradient(180deg,#e4e4e8,#85858b 52%,#c4c4ca)', intelligence: 'linear-gradient(90deg,#4fa8ff,#a770ff 38%,#ff6fb1 68%,#ffb152)',
   ember: 'linear-gradient(90deg,#ffb347,#ff5f2e)', lime: 'linear-gradient(90deg,#b4ec51,#429321)',
 };
-const SOLID = { accent: spec.accent || '#0a84ff', blue: '#0a84ff', green: '#30c04f', orange: '#ff8a1f', red: '#ff453a', purple: '#8e5cf6', pink: '#ff4f8b', teal: '#23bfc4', yellow: '#ffcc00', gray: '#8a8a8e', black: '#1d1d1f', white: '#fff' };
+const SOLID = { accent: spec.accent || (brand ? brand.colors[0] : '#0a84ff'), brand: brand ? brand.colors[0] : '#0a84ff', brand2: brand ? (brand.colors[1] || brand.colors[0]) : '#0a84ff', brand3: brand ? (brand.colors[2] || brand.colors[1] || brand.colors[0]) : '#0a84ff', blue: '#0a84ff', green: '#30c04f', orange: '#ff8a1f', red: '#ff453a', purple: '#8e5cf6', pink: '#ff4f8b', teal: '#23bfc4', yellow: '#ffcc00', gray: '#8a8a8e', black: '#1d1d1f', white: '#fff' };
 const BGS = {
   sunset: 'radial-gradient(70% 90% at 12% 110%,#8a5cf0 0,transparent 62%),radial-gradient(70% 90% at 95% 10%,#ff9a3c 0,transparent 60%),linear-gradient(120deg,#ff7a45,#ff6f8f 55%,#ffb36b)',
   sunrise: 'conic-gradient(from -90deg at 50% 125%,#12308a 0deg,#2b62d6 42deg,#f0a25a 72deg,#ffe2b4 88deg,#f28a3c 103deg,#e2574f 124deg,#2b62d6 150deg,#12308a 180deg,#12308a 360deg)',
@@ -63,14 +71,16 @@ const BGS = {
 // ───────── helpers ─────────
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const fileUrl = p => /^(https?:|data:|file:)/.test(p) ? p : 'file://' + path.resolve(specDir, p);
-const gradOf = (g) => GRADS[g] || (g && g.includes('gradient') ? g : null);
+const gradOf = (g) => g === 'brand' ? `linear-gradient(90deg,${SOLID.brand},${SOLID.brand2})` : GRADS[g] || (g && g.includes('gradient') ? g : null);
 const colorOf = (c) => SOLID[c] || c;
 // **x** highlights x with the card's accent; \n forces a line break.
 const rich = (s, c = {}) => esc(s).replace(/\*\*(.+?)\*\*/g, (_, x) => `<span class="${gradOf(c.grad) ? 'gt' : ''}" style="${gradOf(c.grad) ? `background-image:${gradOf(c.grad)}` : `color:${colorOf(c.color || spec.accent || 'blue')}`}">${x}</span>`).replace(/\n/g, '<br>');
 const icon = (name, sw = 2) => { const g = ICONS[name]; if (!g) { const ts = String(name).toLowerCase().split(/[\s_-]+/).filter(Boolean); const near = Object.keys(ICONS).filter(n => ts.some(t => n.split('-').includes(t))).sort((x, y) => x.length - y.length).slice(0, 6); warnings.push(`unknown icon "${name}"${near.length ? ` — did you mean: ${near.join(', ')}` : ''}; run scripts/find-icon.mjs`); return ''; } return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${g}</svg>`; };
 const warnings = [];
+const logoSrc = (l) => esc(fileUrl(l === true ? brand.logo : l));
 const bgCss = (b) => {
   if (b && b.mesh) { const [a, c = a, d = c] = b.mesh.map(colorOf); return `radial-gradient(70% 90% at 15% 100%,${d} 0,transparent 62%),radial-gradient(60% 85% at 88% 8%,${c} 0,transparent 60%),linear-gradient(125deg,${a},${c} 60%,${d})`; }
+  if (b === 'brand') return `radial-gradient(70% 90% at 85% 0%,color-mix(in srgb,${SOLID.brand2} 72%,#fff) 0,transparent 62%),linear-gradient(130deg,${SOLID.brand},${SOLID.brand2})`;
   if (b === 'auto') return bgCss({ mesh: [`color-mix(in srgb,${SOLID.accent} 62%,#000)`, SOLID.accent, `color-mix(in srgb,${SOLID.accent} 55%,#fff)`] });
   return BGS[b] || (b && /gradient|^#|^rgb|^color-mix/.test(b) ? b : BGS.ocean);
 };
@@ -84,7 +94,8 @@ function visual(v, c) {
   if (!v) return '';
   if (typeof v === 'string') v = { icon: v };
   const col = colorOf(v.color || c.color) || T.ink;
-  if (v.image) return `<img class="v-img ${v.fit === 'cover' ? 'cover' : ''}" src="${esc(fileUrl(v.image))}">`;
+  if (v.logo) return `<img class="v-img" src="${logoSrc(v.logo)}">`;
+  if (v.image) return `<img class="v-img ${v.fit === 'cover' ? 'cover' : ''}" ${v.scale ? `data-scale="${+v.scale}"` : ''} src="${esc(fileUrl(v.image))}">`;
   if (v.svg) return `<div class="v-svg">${v.svg}</div>`;
   if (v.emoji) return `<div class="v-emoji">${esc(v.emoji)}</div>`;
   if (v.device) return device(v);
@@ -144,17 +155,18 @@ const K = {
     const col = colorOf(c.textColor) || '#fff';
     const img = c.image ? `background:url('${esc(fileUrl(c.image))}') center/cover` : `background:${bgCss(c.bg)}`;
     const rings = c.pattern === 'rings' ? `<div class="rings"></div>` : '';
-    return `<div class="bleed" style="${img}">${rings}</div><div class="col center hero-t" style="color:${col}">${c.top ? `<div class="t cap" style="color:inherit">${esc(c.top)}</div>` : ''}<div class="t big hero-w ${gradOf(c.textGrad) ? 'gt' : ''} ${nw(c.text) || ([...String(c.text)].length <= 18 ? 'nw' : '')}" data-grow style="${gradOf(c.textGrad) ? `background-image:${gradOf(c.textGrad)}` : `color:${col}`}">${gradOf(c.textGrad) ? esc(c.text).replace(/\n/g, '<br>') : rich(c.text, c)}</div>${c.sub ? `<div class="t sub" style="color:inherit">${rich(c.sub)}</div>` : ''}</div>`;
+    const logoH = Math.round((c.__h || 300) * (c.logoSize || .26));
+    return `<div class="bleed" style="${img}">${rings}</div><div class="col center hero-t" style="color:${col}">${c.logo ? `<img class="hero-logo ${c.logoPlate ? 'plate' : ''}" style="height:${logoH}px;width:${logoH}px" src="${logoSrc(c.logo)}">` : ''}${c.top ? `<div class="t cap" style="color:inherit">${esc(c.top)}</div>` : ''}<div class="t big hero-w ${gradOf(c.textGrad) ? 'gt' : ''} ${nw(c.text) || ([...String(c.text)].length <= 18 ? 'nw' : '')}" data-grow style="${gradOf(c.textGrad) ? `background-image:${gradOf(c.textGrad)}` : `color:${col}`}">${gradOf(c.textGrad) ? esc(c.text).replace(/\n/g, '<br>') : rich(c.text, c)}</div>${c.sub ? `<div class="t sub" style="color:inherit">${rich(c.sub)}</div>` : ''}</div>`;
   },
   media(c) {
     const img = c.image ? `background:url('${esc(fileUrl(c.image))}') center/${c.fit || 'cover'} no-repeat` : `background:${bgCss(c.bg)}`;
-    return `<div class="bleed" style="${img}"></div>${c.text ? `<div class="col center hero-t"><div class="t big ${nw(c.text)}" data-grow style="color:${colorOf(c.textColor) || '#fff'};text-shadow:0 2px 24px rgba(0,0,0,.28)">${esc(c.text).replace(/\n/g, '<br>')}</div></div>` : ''}${c.caption ? `<div class="t cap media-cap" style="color:${colorOf(c.textColor) || '#fff'}">${rich(c.caption)}</div>` : ''}`;
+    return `<div class="bleed" style="${img}"></div>${c.image && c.caption ? '<div class="scrim"></div>' : ''}${c.text ? `<div class="col center hero-t"><div class="t big ${nw(c.text)}" data-grow style="color:${colorOf(c.textColor) || '#fff'};text-shadow:0 2px 24px rgba(0,0,0,.28)">${esc(c.text).replace(/\n/g, '<br>')}</div></div>` : ''}${c.caption ? `<div class="t cap media-cap" style="color:${colorOf(c.textColor) || '#fff'}">${rich(c.caption)}</div>` : ''}`;
   },
   side(c) { // icon + label, horizontal ("Conversation Awareness")
     return `<div class="row center sidecard"><div class="side-v">${visual(c.visual, c)}</div><div class="t cap left">${rich(c.label)}</div></div>`;
   },
   icons(c) { // row of small icon+caption ("HDMI · Thunderbolt 4 · SDXC")
-    return `<div class="row even">${(c.items || []).map(i => `<div class="col fill icell"><div class="vis">${visual(i.visual || i.icon, c)}</div>${cap(i.label)}</div>`).join('')}</div>`;
+    return `${c.caption ? `<div class="sz-cap">${cap(c.caption)}</div>` : ''}<div class="row even">${(c.items || []).map(i => `<div class="col fill icell"><div class="vis">${visual(i.visual || i.icon, c)}</div>${cap(i.label)}</div>`).join('')}</div>`;
   },
   frame(c) { // focus-bracket text
     const col = colorOf(c.color || 'orange');
@@ -278,7 +290,7 @@ function autoLayout() {
     const heroish = c.kind === 'hero' || c.center || ((SIZE[c.size] || 1) >= 3);
     const small = c.kind === 'feature' && c.visual && (c.visual.icon || c.visual.emoji) ? .68 : 1;
     const lines = String(c.text || '').split('\n').length;
-    const minH = ({ stat: (c.top ? 58 : 0) + (c.bottom ? 58 : 0) + 96, statement: (c.top ? 40 : 0) + (c.bottom ? 44 : 0) + 76 * lines, frame: 66 * lines + 34, feature: PORTRAIT ? 215 : 150, bubbles: 58 * ((c.items || []).length + (c.caption ? 1 : 0)) + 30, list: 48 * ((c.items || []).length + (c.caption ? 1 : 0)) + 30, meter: 190, toggles: 52 * ((c.items || []).length + (c.caption ? 1 : 0)) + 30, terminal: 44 * ((c.lines || []).length + (c.caption ? 1 : 0)) + 40, badge: 120, replace: 170, cores: 200, chips: 170, notif: 130, rings: 180, window: 180 })[c.kind] || 0;
+    const minH = ({ stat: (c.top ? 58 : 0) + (c.bottom ? 58 : 0) + 96, statement: (c.top ? 40 : 0) + (c.bottom ? 44 : 0) + 76 * lines, frame: 66 * lines + 34, feature: PORTRAIT ? 215 : 150, bubbles: 58 * ((c.items || []).length + (c.caption ? 1 : 0)) + 30, list: 48 * ((c.items || []).length + (c.caption ? 1 : 0)) + 30, meter: 190, toggles: 52 * ((c.items || []).length + (c.caption ? 1 : 0)) + 30, terminal: 44 * ((c.lines || []).length + (c.caption ? 1 : 0)) + 40, icons: (c.caption ? 200 : 160), badge: 120, replace: 170, cores: 200, chips: 170, notif: 130, rings: 180, window: 180 })[c.kind] || 0;
     return { i, kind: c.kind, lo, hi, minH: minH * S, area: sp[2] * small * (SIZE[c.size] || 1), heroish }; });
   const tot = info.reduce((s, x) => s + x.area, 0), cw = innerW / cols, rh = innerH / rows;
   const rand = rng(seed * 7919 + 13); let best = null, bestS = Infinity; const pool = [];
@@ -333,6 +345,12 @@ function manualLayout() { // card.at = [col,row,colSpan,rowSpan] on spec.grid = 
   const [cols, rows] = spec.grid; const cw = (W - 2 * MARGIN + GAP) / cols, rh = (H - 2 * MARGIN + GAP) / rows;
   return cards.map((c, i) => ({ i, x: MARGIN + c.at[0] * cw, y: MARGIN + c.at[1] * rh, w: c.at[2] * cw - GAP, h: c.at[3] * rh - GAP }));
 }
+if (brand) {
+  if (!cards.some(c => c.logo || (c.visual && c.visual.logo))) warnings.push('brand is set but no card shows the logo; add "logo": true to the hero or "visual": {"logo": true} to a card');
+  const off = new Set(); const walk = o => { if (o && typeof o === 'object') { for (const [k, v] of Object.entries(o)) { if ((k === 'grad' || k === 'textGrad') && typeof v === 'string' && v !== 'brand') off.add(`${k}:${v}`); if (k === 'bg' && typeof v === 'string' && !['brand', 'auto'].includes(v)) off.add(`bg:${v}`); walk(v); } } }; cards.forEach(walk);
+  if (off.size) warnings.push(`off-brand colors: ${[...off].join(', ')}; use "brand", "accent", "brand2", "brand3" or colors taken from official artwork`);
+  if (cards.some(c => c.visual && c.visual.emoji) || cards.some(c => c.kind === 'icons' && (c.items || []).some(i => i.visual && i.visual.emoji && !/\p{Regional_Indicator}/u.test(i.visual.emoji)))) warnings.push('emoji used on a real brand slide; prefer official product photos');
+}
 if (PORTRAIT && cards.length > 16) warnings.push(`portrait has ${cards.length} cards; 10-16 reads best on a phone — mark the rest "secondary": true`);
 const boxes = spec.grid ? manualLayout() : autoLayout();
 
@@ -361,7 +379,7 @@ body{font-family:${FONT};color:${T.ink};-webkit-font-smoothing:antialiased;font-
 .v-img.cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .bleed{position:absolute;inset:0;overflow:hidden}.bleed .v-img{width:100%;height:100%;max-width:none;max-height:none}
 .coverwrap{position:absolute;inset:0;display:flex;flex-direction:column}.cover-img{flex:1;min-height:0;position:relative;overflow:hidden}.cover-cap{flex:none;margin:${Math.round(12*S)}px ${Math.round(16*S)}px ${Math.round(14*S)}px}
-.media-cap{position:absolute;left:${Math.round(18*S)}px;right:${Math.round(18*S)}px;bottom:${Math.round(16 * S)}px;text-shadow:0 1px 12px rgba(0,0,0,.4)}
+.scrim{position:absolute;left:0;right:0;bottom:0;height:42%;background:linear-gradient(transparent,rgba(0,0,0,.62))}.media-cap{position:absolute;left:${Math.round(18*S)}px;right:${Math.round(18*S)}px;bottom:${Math.round(16 * S)}px;text-shadow:0 1px 12px rgba(0,0,0,.4)}
 .v-svg{width:100cqw;height:100cqh;display:flex;align-items:center;justify-content:center}.v-svg svg{width:100%;height:100%}
 .v-emoji{font-size:78cqmin;line-height:1;font-family:"Apple Color Emoji"}
 .v-ico{display:flex;align-items:center;justify-content:center}
@@ -378,7 +396,7 @@ body{font-family:${FONT};color:${T.ink};-webkit-font-smoothing:antialiased;font-
 .laptop{width:min(92cqw,calc(88cqh*1.56));display:flex;flex-direction:column;align-items:center}.lid{width:88%;aspect-ratio:1.55;background:#0d0d0f;border-radius:3.4%/5.2%;padding:1.2%;box-shadow:0 0 0 1px #8a8a8e}.lid .scr{height:100%;border-radius:1.6%/2.5%}
 .base{width:100%;height:calc(min(92cqw,88cqh*1.56)*.032);background:linear-gradient(180deg,#d8d8dc,#9c9ca2);border-radius:0 0 40% 40%/0 0 100% 100%}
 .scr-time{color:#fff;font-weight:600;font-size:min(30cqw,13cqh);letter-spacing:-.02em;text-shadow:0 1px 10px rgba(0,0,0,.2)}.scr-time.small{font-size:min(16cqw,7cqh);font-weight:700;text-align:center;line-height:1.1;padding:6%}
-.hero-t{position:relative;z-index:1;gap:${Math.round(8 * S)}px}.hero-w{font-weight:600;letter-spacing:-.02em}
+.hero-logo{flex:none;object-fit:contain;border-radius:22%;margin-bottom:${Math.round(6 * S)}px}.hero-logo.plate{background:#fff;border-radius:50%;padding:${Math.round(5 * S)}px;box-shadow:0 ${Math.round(3 * S)}px ${Math.round(14 * S)}px rgba(0,0,0,.16)}.hero-t{position:relative;z-index:1;gap:${Math.round(8 * S)}px}.hero-w{font-weight:600;letter-spacing:-.02em}
 .rings{position:absolute;left:50%;top:6%;width:62%;aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:repeating-radial-gradient(circle,rgba(255,255,255,.2) 0 7%,rgba(255,255,255,.05) 7% 14%);filter:blur(1px)}
 .sidecard{gap:${Math.round(14 * S)}px}.side-v{width:${Math.round(66 * S)}px;height:${Math.round(66 * S)}px;flex:none;container-type:size;display:flex;align-items:center;justify-content:center}.sidecard .v-ico{width:100cqmin!important;height:100cqmin!important}
 .icell{flex:1;min-width:0}
@@ -414,7 +432,7 @@ body.glass{background:${spec.backdrop && BGS[spec.backdrop] ? BGS[spec.backdrop]
 #report{display:none}
 `;
 const cardHtml = boxes.map(b => { const c = cards[b.i]; const fn = K[c.kind]; if (!fn) { warnings.push(`unknown kind "${c.kind}" (card ${b.i})`); return ''; }
-  const bg = c.cardBg ? `background:${c.cardBg};` : c.tint ? `background:color-mix(in srgb,${colorOf(c.tint)} ${spec.theme === 'dark' ? 26 : 16}%,${T.card});` : '';
+  c.__h = b.h; const bg = c.cardBg ? `background:${c.cardBg};` : c.tint ? `background:color-mix(in srgb,${colorOf(c.tint)} ${spec.theme === 'dark' ? 26 : 16}%,${T.card});` : '';
   return `<div class="card k-${c.kind}" data-i="${b.i}" style="left:${b.x.toFixed(1)}px;top:${b.y.toFixed(1)}px;width:${b.w.toFixed(1)}px;height:${b.h.toFixed(1)}px;${bg}"><div class="in">${fn(c)}</div></div>`; }).join('\n');
 
 // Runtime fit: grow headline text to fill its card, then shrink anything that overflows; report what cannot fit.
@@ -433,6 +451,7 @@ for(const c of document.querySelectorAll('.card')){const inn=c.querySelector('.i
  if(over(c,inn))rep.push({card:+c.dataset.i,kind:c.className.replace('card k-',''),problem:'overflow'});
  const cf=others[0]&&parseFloat(getComputedStyle(others[0]).fontSize);if(cf&&cf<=MINC*1.05)rep.push({card:+c.dataset.i,problem:'caption at minimum size — shorten text or enlarge card'});
 }
+document.querySelectorAll('[data-scale]').forEach(el=>{el.style.transform='scale('+el.dataset.scale+')'});
 document.getElementById('report').textContent=JSON.stringify(rep);
 `;
 const html = `<!doctype html><html lang="zh"><head><meta charset="utf-8"><title>${esc(spec.title || 'summary')}</title><style>${css}</style></head><body class="${spec.theme === 'glass' ? 'glass' : ''}">${cardHtml}<pre id="report"></pre><script>document.fonts.ready.then(()=>{${fit}})</script></body></html>`;
