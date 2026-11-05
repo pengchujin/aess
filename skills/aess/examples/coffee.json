@@ -1,0 +1,153 @@
+{
+"title": "Northwind 2026",
+"theme": "white",
+"cards": [
+{
+"kind": "hero",
+"top": "2026 Annual Recap",
+"text": "Northwind\nCoffee",
+"bg": "ember",
+"size": "l"
+},
+{
+"kind": "stat",
+"value": "61 million",
+"bottom": "cups served",
+"grad": "gold",
+"size": "l"
+},
+{
+"kind": "stat",
+"value": "412",
+"bottom": "stores in 9 countries"
+},
+{
+"kind": "stat",
+"value": "38",
+"bottom": "new stores",
+"secondary": true
+},
+{
+"kind": "stat",
+"value": "4.2M",
+"bottom": "app members",
+"grad": "blue",
+"secondary": true
+},
+{
+"kind": "stat",
+"value": "47%",
+"bottom": "of orders via the app",
+"secondary": true
+},
+{
+"kind": "feature",
+"visual": {
+"device": "phone",
+"bg": "ember",
+"screenText": "Order\nahead"
+},
+"caption": "Mobile app",
+"secondary": true
+},
+{
+"kind": "pill",
+"before": "Wait time",
+"value": "2 min 40 s",
+"after": "down from 6 min",
+"secondary": true
+},
+{
+"kind": "feature",
+"visual": {
+"emoji": "🥤"
+},
+"caption": "Oat Cold Brew, our best seller"
+},
+{
+"kind": "feature",
+"visual": {
+"emoji": "☕️"
+},
+"caption": "Yuzu Espresso, seasonal"
+},
+{
+"kind": "meter",
+"percent": 100,
+"value": "100%",
+"bottom": "renewable electricity"
+},
+{
+"kind": "feature",
+"visual": {
+"icon": "leaf",
+"color": "green"
+},
+"caption": "Compostable cups"
+},
+{
+"kind": "stat",
+"top": "Removed",
+"value": "120 tons",
+"bottom": "single-use plastic",
+"color": "green"
+},
+{
+"kind": "meter",
+"percent": 83,
+"value": "83%",
+"bottom": "direct-trade beans",
+"color": "orange"
+},
+{
+"kind": "stat",
+"value": "26",
+"bottom": "partner farms",
+"secondary": true
+},
+{
+"kind": "statement",
+"text": "Training hours\n**doubled**",
+"grad": "purple"
+},
+{
+"kind": "stat",
+"top": "Staff turnover",
+"value": "−18%",
+"secondary": true
+},
+{
+"kind": "stat",
+"value": "4.8 / 5",
+"bottom": "customer satisfaction",
+"grad": "rainbow"
+},
+{
+"kind": "feature",
+"visual": {
+"icon": "tablet-smartphone",
+"style": "circle",
+"color": "blue"
+},
+"caption": "Self-order kiosks",
+"secondary": true
+},
+{
+"kind": "feature",
+"visual": {
+"icon": "badge-check",
+"style": "app",
+"bg": "violet"
+},
+"caption": "Loyalty subscription",
+"secondary": true
+},
+{
+"kind": "stat",
+"top": "Rotterdam roastery",
+"value": "900 tons",
+"bottom": "per year, roasted overnight",
+"size": "l"
+}
+]
+}

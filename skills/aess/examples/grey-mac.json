@@ -1,0 +1,17 @@
+{"title":"mac","theme":"grey","cards":[
+{"kind":"feature","visual":{"chip":"N4","sub":"MAX"},"size":"l"},
+{"kind":"feature","visual":{"device":"laptop","bg":"sunrise"},"size":"xl","center":true},
+{"kind":"stat","value":"24-core","bottom":"CPU"},
+{"kind":"stat","top":"最高","value":"76-core","bottom":"GPU"},
+{"kind":"stat","top":"最高","value":"3 倍","bottom":"相比上代性能"},
+{"kind":"stat","top":"最高","value":"192GB","bottom":"统一内存"},
+{"kind":"stat","top":"32 核","value":"神经网络引擎","bottom":"每秒 31.6 万亿次运算","size":"l"},
+{"kind":"stat","top":"最高","value":"22 路","bottom":"8K 视频流","grad":"rainbow"},
+{"kind":"feature","visual":{"icon":"wifi","style":"circle"},"caption":"Wi-Fi 6E"},
+{"kind":"feature","visual":{"icon":"bluetooth","style":"circle"},"caption":"蓝牙 5.3"},
+{"kind":"feature","visual":{"icon":"zap","color":"black"},"caption":"8 个高速端口"},
+{"kind":"icons","items":[{"icon":"monitor","label":"HDMI"},{"icon":"ethernet-port","label":"万兆网口"},{"icon":"usb","label":"USB-C"}],"size":"l"},
+{"kind":"statement","text":"**无风扇**设计","color":"blue"},
+{"kind":"frame","text":"1080p 视频通话\n高清摄像头"},
+{"kind":"hero","text":"Nimbus","sub":"Pro Edition","bg":"sunrise"}
+]}

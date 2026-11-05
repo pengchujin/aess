@@ -1,0 +1,16 @@
+{"title":"Pulse fitness","theme":"white","accent":"#ff2d55","cards":[
+{"kind":"hero","text":"Pulse","sub":"你的全天健康教练","bg":{"mesh":["#d6134a","#ff4d6d","#ff9f6b"]},"size":"l"},
+{"kind":"rings","values":[86,72,58],"caption":"三环目标"},
+{"kind":"spark","values":[62,70,66,84,78,96,88],"value":"142 bpm","caption":"运动心率","color":"#ff2d55"},
+{"kind":"stat","value":"7 小时 24 分","bottom":"昨夜睡眠","grad":"purple"},
+{"kind":"ripple","text":"触感\n提醒"},
+{"kind":"bars","values":[4,7,5,9,6,11,8],"caption":"每周训练","color":"#30c04f"},
+{"kind":"toggles","items":[{"label":"久坐提醒"},{"label":"喝水提醒"},{"label":"静默模式","on":false}],"caption":"智能提醒"},
+{"kind":"statement","text":"**12 种**\n训练模式","color":"#ff2d55","tint":"#ff2d55"},
+{"kind":"feature","visual":{"device":"watch","bg":"sunset","time":"10:09"},"caption":"表盘同步"},
+{"kind":"bubbles","items":[{"text":"今天练什么？"},{"text":"恢复良好，来组间歇跑","from":"me"}],"caption":"AI 教练","color":"#ff2d55"},
+{"kind":"pill","before":"连续打卡","value":"128 天","color":"#30c04f","secondary":true},
+{"kind":"feature","visual":{"icon":"droplets","style":"circle","color":"teal"},"caption":"血氧监测","secondary":true},
+{"kind":"feature","visual":{"icon":"flame","style":"app","bg":"ember"},"caption":"卡路里追踪","secondary":true},
+{"kind":"statement","text":"Move better","style":"script","color":"#d6134a","secondary":true}
+]}

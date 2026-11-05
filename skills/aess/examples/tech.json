@@ -1,0 +1,22 @@
+{"title":"demo","theme":"white","cards":[
+{"kind":"hero","text":"Aurora OS","bg":"sunset","size":"l"},
+{"kind":"feature","visual":{"device":"phone","bg":"violet","time":"9:41"},"caption":"全新锁屏","size":"l"},
+{"kind":"stat","top":"最高","value":"3 倍","bottom":"渲染速度提升"},
+{"kind":"stat","top":"长达","value":"60 小时","bottom":"电池续航","grad":"sunset"},
+{"kind":"statement","text":"**实时**\n协作","color":"blue"},
+{"kind":"feature","visual":{"icon":"wifi","style":"circle","color":"blue"},"caption":"Wi-Fi 7"},
+{"kind":"feature","visual":{"icon":"bluetooth","style":"circle","color":"blue"},"caption":"蓝牙 6.0"},
+{"kind":"feature","visual":{"icon":"sparkles","style":"app","bg":"violet"},"caption":"智能助手"},
+{"kind":"feature","visual":{"chip":"X3","sub":"ULTRA"},"caption":"新一代芯片"},
+{"kind":"wave","text":"人声隔离"},
+{"kind":"frame","text":"前置 12MP\n横向摄像头"},
+{"kind":"side","visual":{"icon":"message-circle","style":"circle","color":"green"},"label":"对话感知"},
+{"kind":"bubbles","items":[{"text":"收到了吗？"},{"text":"已经同步！","from":"me"},{"text":"太快了 🎉"}],"caption":"消息特效"},
+{"kind":"swatch","top":"四种配色","colors":["#c9d6df","#e4dcea","#efe6da","#6d6d72"]},
+{"kind":"statement","text":"防水\n50 米","style":"gray"},
+{"kind":"stat","value":"2,000,000:1","bottom":"对比度","grad":"rainbow","size":"l"},
+{"kind":"pill","before":"最长","value":"21 小时","after":"续航"},
+{"kind":"meter","percent":100,"value":"100%","bottom":"再生铝金属"},
+{"kind":"list","items":["汞","PVC","铍"],"prefix":"无"},
+{"kind":"thumbs","label":"相册合集","items":["sunset","ocean","mint"]}
+]}

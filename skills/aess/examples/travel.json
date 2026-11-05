@@ -1,0 +1,15 @@
+{"title":"Wander travel","theme":"glass","backdrop":"sunset","accent":"#0a84ff","cards":[
+{"kind":"hero","text":"Wander","sub":"一次看懂这趟旅程","bg":"ocean","size":"l"},
+{"kind":"stat","value":"14 天","bottom":"横跨 3 个国家"},
+{"kind":"stat","value":"2,318 km","bottom":"公路总里程"},
+{"kind":"media","bg":"mint","text":"冰岛","caption":"第一站"},
+{"kind":"feature","visual":{"emoji":"🏔️"},"caption":"7 座雪山"},
+{"kind":"feature","visual":{"emoji":"🌋"},"caption":"2 处火山"},
+{"kind":"thumbs","label":"6,120 张\n照片","items":["sunset","ocean","aurora","mint"]},
+{"kind":"statement","text":"Slow travel","style":"script"},
+{"kind":"meter","percent":92,"value":"92%","bottom":"预算使用","color":"#30c04f"},
+{"kind":"feature","visual":{"icon":"map","style":"circle"},"caption":"离线地图"},
+{"kind":"bubbles","items":[{"text":"下一站去哪？"},{"text":"黑沙滩！","from":"me"}],"caption":"同行群聊","secondary":true},
+{"kind":"stat","top":"人均","value":"¥18,400","bottom":"全程花费","secondary":true},
+{"kind":"feature","visual":{"emoji":"🐋"},"caption":"偶遇鲸鱼","secondary":true}
+]}

@@ -1,0 +1,17 @@
+{"title":"eco","theme":"dark","cards":[
+{"kind":"hero","text":"Terra One","sub":"100% 再生稀土磁体\n全部来自回收材料","bg":"graphite","size":"l"},
+{"kind":"statement","text":"ZERO\nWASTE","style":"marker","decor":"arrows","bottom":"100+ 供应商工厂零填埋"},
+{"kind":"statement","text":"2030","style":"marker","decor":"ring","bottom":"全产品链碳中和目标"},
+{"kind":"statement","text":"RESPONSIBLY\nMANAGED","style":"marker","color":"green","bottom":"100% 森林认证纤维"},
+{"kind":"list","items":["mercury","PVC","beryllium","BFR"]},
+{"kind":"stat","value":"100%","bottom":"再生钴用于电池","color":"white"},
+{"kind":"stat","value":"100%","bottom":"再生铝金属外壳","color":"white"},
+{"kind":"feature","visual":{"icon":"recycle","color":"green"},"caption":"多部件使用再生塑料"},
+{"kind":"feature","visual":{"icon":"zap","color":"green"},"caption":"200+ 供应商承诺使用可再生能源"},
+{"kind":"feature","visual":{"icon":"volume-2","color":"green"},"caption":"再生材料扬声器"},
+{"kind":"side","visual":{"icon":"battery-charging","color":"green"},"label":"满足美国能源部\n电池充电系统标准"},
+{"kind":"meter","percent":96,"value":"96%","bottom":"纤维基包装"},
+{"kind":"feature","visual":{"chip":"T2","sub":"PRO"},"caption":"能效提升 40%"},
+{"kind":"statement","text":"全新纯色盒","style":"gradient","grad":"green"},
+{"kind":"stat","top":"低至","value":"1,000 kWh/年","bottom":"比同类产品更省电","grad":"green"}
+]}

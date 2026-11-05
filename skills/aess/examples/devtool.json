@@ -1,0 +1,143 @@
+{
+"title": "Forge CLI 3",
+"theme": "grey",
+"accent": "#5e5ce6",
+"cards": [
+{
+"kind": "hero",
+"text": "Forge 3",
+"sub": "更快的构建工具链",
+"bg": "auto",
+"size": "l"
+},
+{
+"kind": "terminal",
+"lines": [
+"$ forge build",
+"✓ 412 modules",
+"✓ done in 0.8s"
+],
+"caption": "一条命令构建",
+"size": "l"
+},
+{
+"kind": "stat",
+"top": "构建速度",
+"value": "12 倍",
+"bottom": "对比 2.x",
+"grad": "purple"
+},
+{
+"kind": "bars",
+"values": [
+100,
+62,
+38,
+8
+],
+"caption": "冷启动耗时对比",
+"labels": [
+"1.x",
+"2.x",
+"RC",
+"3.0"
+],
+"highlight": 3
+},
+{
+"kind": "spark",
+"values": [
+3,
+4,
+6,
+6,
+9,
+12,
+16,
+22
+],
+"value": "22k",
+"caption": "周下载量增长"
+},
+{
+"kind": "window",
+"title": "forge.config",
+"lines": [
+"cache: remote",
+"target: es2024"
+],
+"caption": "零配置起步"
+},
+{
+"kind": "badge",
+"items": [
+"ESM",
+"TS",
+"WASM"
+],
+"caption": "原生支持"
+},
+{
+"kind": "toggles",
+"items": [
+{
+"label": "远程缓存"
+},
+{
+"label": "增量构建"
+},
+{
+"label": "遥测",
+"on": false
+}
+],
+"caption": "按需开关"
+},
+{
+"kind": "notif",
+"title": "构建完成",
+"body": "0.8 秒 · 无错误",
+"icon": "check",
+"caption": "CI 实时通知"
+},
+{
+"kind": "replace",
+"from": "手写配置",
+"to": "零配置",
+"caption": "告别手写配置"
+},
+{
+"kind": "stat",
+"value": "100%",
+"bottom": "开源 · MIT",
+"secondary": true
+},
+{
+"kind": "feature",
+"visual": {
+"icon": "puzzle",
+"style": "app",
+"bg": "auto"
+},
+"caption": "插件生态",
+"secondary": true
+},
+{
+"kind": "cores",
+"grid": [
+8,
+2
+],
+"lit": 16,
+"value": "16 线程",
+"bottom": "并行编译",
+"secondary": true
+},
+{
+"kind": "statement",
+"text": "**Rust**\n重写内核",
+"color": "#d9622b",
+"secondary": true
+}
+]
+}

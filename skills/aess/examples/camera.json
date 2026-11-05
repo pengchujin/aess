@@ -1,0 +1,17 @@
+{"title":"Halo X camera","theme":"dark","accent":"#ffcc00","cards":[
+{"kind":"hero","text":"Halo X","sub":"口袋里的电影机","bg":"graphite","textGrad":"titanium","size":"l"},
+{"kind":"segments","items":[".5","1","2×","5×"],"active":2,"caption":"四档光学变焦"},
+{"kind":"stat","value":"48MP","bottom":"主摄","grad":"gold","size":"l"},
+{"kind":"frame","text":"横向人脸\n自动取景","color":"yellow"},
+{"kind":"media","bg":"ember","text":"HDR","caption":"杜比视界录制"},
+{"kind":"statement","text":"钛金属\n机身","style":"metal"},
+{"kind":"chips","items":[{"name":"V5","sub":"BASE"},{"name":"V5","sub":"PRO","grad":"gold"}],"caption":"双影像芯片"},
+{"kind":"stat","top":"最高","value":"8K","bottom":"60 帧视频"},
+{"kind":"badge","items":["RAW","Log","ProRes"],"caption":"专业格式","color":"#a1a1a6"},
+{"kind":"cores","grid":[6,2],"value":"12 核","bottom":"影像引擎","color":"yellow"},
+{"kind":"wave","text":"四麦收音","grad":"gold"},
+{"kind":"stat","top":"续航","value":"3.5 小时","bottom":"连续 4K 录制","secondary":true},
+{"kind":"feature","visual":{"icon":"droplets","color":"#5ac8fa"},"caption":"IP68 防水","secondary":true},
+{"kind":"dim","width":"72 mm","height":"48 mm","visual":{"icon":"camera","weight":1.5},"caption":"仅 186 克","secondary":true},
+{"kind":"pill","before":"充电","value":"30 分钟","after":"至 80%","color":"#30c04f","secondary":true}
+]}
