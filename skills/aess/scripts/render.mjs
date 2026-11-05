@@ -67,7 +67,7 @@ const gradOf = (g) => GRADS[g] || (g && g.includes('gradient') ? g : null);
 const colorOf = (c) => SOLID[c] || c;
 // **x** highlights x with the card's accent; \n forces a line break.
 const rich = (s, c = {}) => esc(s).replace(/\*\*(.+?)\*\*/g, (_, x) => `<span class="${gradOf(c.grad) ? 'gt' : ''}" style="${gradOf(c.grad) ? `background-image:${gradOf(c.grad)}` : `color:${colorOf(c.color || spec.accent || 'blue')}`}">${x}</span>`).replace(/\n/g, '<br>');
-const icon = (name, sw = 2) => { const g = ICONS[name]; if (!g) { warnings.push(`unknown icon "${name}"`); return ''; } return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${g}</svg>`; };
+const icon = (name, sw = 2) => { const g = ICONS[name]; if (!g) { const ts = String(name).toLowerCase().split(/[\s_-]+/).filter(Boolean); const near = Object.keys(ICONS).filter(n => ts.some(t => n.split('-').includes(t))).sort((x, y) => x.length - y.length).slice(0, 6); warnings.push(`unknown icon "${name}"${near.length ? ` — did you mean: ${near.join(', ')}` : ''}; run scripts/find-icon.mjs`); return ''; } return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${g}</svg>`; };
 const warnings = [];
 const bgCss = (b) => {
   if (b && b.mesh) { const [a, c = a, d = c] = b.mesh.map(colorOf); return `radial-gradient(70% 90% at 15% 100%,${d} 0,transparent 62%),radial-gradient(60% 85% at 88% 8%,${c} 0,transparent 60%),linear-gradient(125deg,${a},${c} 60%,${d})`; }

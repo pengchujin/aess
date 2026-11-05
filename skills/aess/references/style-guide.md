@@ -82,10 +82,10 @@ Every card takes optional `size` (`xs s m l xl xxl`), `center: true` to pull it 
 | `html` | `html` | Escape hatch for a truly bespoke card. |
 
 **`visual`** is one of:
-- `{"icon":"wifi","style":"plain|circle|app","color":"blue","bg":"violet"}` — 1,700 Lucide names (`assets/icons.json`, English kebab-case; grep to find one). `circle` = white on a colored disc; `app` = app-icon squircle; `plain` = bare glyph.
+- `{"icon":"wifi","style":"plain|circle|app","color":"blue","bg":"violet"}` — 1,700 Lucide names in English kebab-case; find them with `scripts/find-icon.mjs <keyword>`. `circle` = white on a colored disc; `app` = app-icon squircle; `plain` = bare glyph.
 - `{"device":"phone|tablet|laptop|watch","bg":"sunset","image":"shot.png","time":"9:41","screenText":"…"}`
 - `{"chip":"X3","sub":"ULTRA","grad":"ice"}` — dark processor square. Use only for actual chips or a similar "core engine".
-- `{"image":"photo.png","fit":"cover"}` — `cover` fills the card edge to edge; the default is contained.
+- `{"image":"photo.png","fit":"cover"}` — `cover` fills the card edge to edge; the default is contained. PNG, JPG, WebP and SVG all work, so a downloaded logo can go straight in.
 - `{"emoji":"🎧"}` — large objects when no icon or photo fits.
 - `{"svg":"<svg…>"}` — draw a custom illustration when the subject deserves it.
 

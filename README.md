@@ -17,7 +17,8 @@
 - **30 种卡片。** 从苹果 2019–2026 年的总结幻灯片里提炼：数字卡、芯片方块、核心阵列、声波、聊天气泡、通知横幅、尺寸标注、删除线换词、手写环保标语等。
 - **四套主题。** 白底灰卡、灰底白卡、黑底深灰卡、彩色背景上的磨砂玻璃。
 - **横竖屏都能出。** 横屏 16:9 为 3840×2160，竖屏 3:4 为 2160×2880，竖屏的字号专门为手机放大。
-- **不编数据。** 数字只取自你的内容，提炼时不四舍五入，也不凭空画图表。
+- **主动找素材。** 每张图标卡都先查最贴切的图标；主题是真实产品或品牌时，上网找官方图片，内容不够时补资料，并列出来源供你核对。
+- **不编数据。** 数字只来自你的内容或查到的来源，提炼时不四舍五入，也不凭空画图表。
 - **零依赖渲染。** 只需要 Node 18+ 和本机的 Chrome 或 Chromium。
 
 ## 安装
@@ -95,7 +96,8 @@ node skills/aess/scripts/render.mjs skills/aess/examples/camera.json --format bo
 - **Small cards adapt to the subject:** lens selectors for cameras, consoles for dev tools, activity rings for fitness, with colors drawn from the topic.
 - **30 card kinds** distilled from the 2019–2026 slides, in **4 themes** (white, grey, dark, frosted glass).
 - **Landscape 16:9** (3840×2160) and **portrait 3:4** (2160×2880), with larger type for phones.
-- **No invented data:** numbers come only from your content.
+- **Looks things up:** finds the closest icon for each card and, for real products or brands, official images and missing facts, listing sources for you to check.
+- **No invented data:** numbers come only from your content or sources it found.
 - **Zero npm dependencies:** needs Node 18+ and a local Chrome or Chromium.
 
 ```bash
